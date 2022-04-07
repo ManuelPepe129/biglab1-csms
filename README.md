@@ -5,7 +5,7 @@
 ## Team name: CSMS
 Team members:
 * s295829 Acquaro Claudio
-* s123456 LASTNAME FIRSTNAME
+* s303393 Belloni Sofia
 * s123456 LASTNAME FIRSTNAME
 * s123456 LASTNAME FIRSTNAME (delete line if not needed)
 
