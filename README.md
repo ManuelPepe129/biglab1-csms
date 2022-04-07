@@ -4,7 +4,7 @@
 
 ## Team name: TEAMNAME  (edit to reflect your team name)
 Team members:
-* s123456 LASTNAME FIRSTNAME
+* s295829 Acquaro Claudio
 * s123456 LASTNAME FIRSTNAME
 * s123456 LASTNAME FIRSTNAME
 * s123456 LASTNAME FIRSTNAME (delete line if not needed)
