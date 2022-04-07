@@ -2,7 +2,7 @@
   
 # Class: 2022 AW1
 
-## Team name: TEAMNAME  (edit to reflect your team name)
+## Team name: CSMS
 Team members:
 * s295829 Acquaro Claudio
 * s123456 LASTNAME FIRSTNAME
