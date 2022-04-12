@@ -6,7 +6,7 @@
 Team members:
 * s295829 Acquaro Claudio
 * s303393 Belloni Sofia
-* s123456 LASTNAME FIRSTNAME
+* s302948 Matranga Sonia
 * s123456 LASTNAME FIRSTNAME (delete line if not needed)
 
 ## Instructions
