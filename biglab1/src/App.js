@@ -1,25 +1,26 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Container, Row} from 'react-bootstrap';
+import MyNavigationBar from './NavigationBar';
+import MySideBar from './SideBar';
+import MyFilmList from './FilmList.js';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <MyNavigationBar></MyNavigationBar>
+      <br />
+      <Container fluid className="mh-100">
+        <Row>
+          <MySideBar></MySideBar>
+          <MyFilmList></MyFilmList>
+        </Row>
+      </Container>
+      <br />
+    </>
   );
 }
 
-export default App;
+
+export default App; 
