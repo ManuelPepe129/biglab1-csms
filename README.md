@@ -7,7 +7,7 @@ Team members:
 * s295829 Acquaro Claudio
 * s303393 Belloni Sofia
 * s302948 Matranga Sonia
-* s123456 LASTNAME FIRSTNAME (delete line if not needed)
+* s281221 Pepe Manuel
 
 ## Instructions
 
