@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button} from 'react-bootstrap';
 import React from 'react';
 import { times } from 'underscore'
 import _default from 'react-bootstrap/esm/Accordion';
@@ -22,6 +22,7 @@ function MainComponent(props){
         <Col xs={9}>
           <Films films = {props.films} filter={filter} />
         </Col> 
+
       </Row>
     );
 
@@ -55,7 +56,9 @@ function Films(props){
                         }}).map((f) => <FilmData film={f} key={f.id} />)
         }
         </ul>
-        <button type="button" class="btn btn-lg btn-primary fixed-right-bottom">&#43;</button>
+        
+        <Button className="btn btn-lg btn-primary fixed-right-bottom">&#43;</Button>
+       
         </>
     );
 }
