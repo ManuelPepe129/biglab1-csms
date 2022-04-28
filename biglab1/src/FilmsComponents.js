@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import React from 'react';
 import _default from 'react-bootstrap/esm/Accordion';
 import { Sidebar } from './SidebarComponents';
@@ -58,9 +58,9 @@ function Films(props) {
           }).map((f) => <FilmData film={f} key={f.id} />)
         }
       </ul>
-
-      <Button type="button" class="btn  btn-circle btn-lg btn-primary fixed-right-bottom rounded-circle" style = {{position : "fixed", bottom : 20, right : 20}}>&#43;</Button>
-
+       
+      <button type="button" class=" btn-lg btn-primary fixed-right-bottom rounded-circle" style = {{position : "fixed", bottom : 20, right : 20}}>+</button>
+     
     </>
   );
 }
