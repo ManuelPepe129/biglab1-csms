@@ -4,7 +4,6 @@ import React from 'react';
 import { times } from 'underscore'
 import _default from 'react-bootstrap/esm/Accordion';
 import { Sidebar } from './SidebarComponents';
-import StarRating from 'react-bootstrap-star-rating';
 //import './FilmsComponents.css';
 import {Star,StarFill} from 'react-bootstrap-icons';
 import dayjs from 'dayjs';
