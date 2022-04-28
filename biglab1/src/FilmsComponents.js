@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import React from 'react';
-import { times } from 'underscore'
 import _default from 'react-bootstrap/esm/Accordion';
 import { Sidebar } from './SidebarComponents';
 //import './FilmsComponents.css';
@@ -60,7 +59,7 @@ function Films(props) {
         }
       </ul>
 
-      <Button className="btn btn-lg btn-primary fixed-right-bottom">&#43;</Button>
+      <Button type="button" class=" btn-circle btn-lg btn-primary fixed-right-bottom rounded-circle" style = {{position : "fixed", bottom : 20, right : 20}}>&#43;</Button>
 
     </>
   );
