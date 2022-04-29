@@ -38,7 +38,12 @@ function Films(props) {
   const [favorite, setFavorite] = useState(false);
   const [rate, setRate] = useState(0);
 
-  const handleClose = () => setShowForm(false);
+  const handleClose = () => {
+    setShowForm(false); setFavorite(false);
+    setTitle('');
+    setRate(0);
+    setWhatch(undefined);
+  };
   const handleShow = () => setShowForm(true);
   const newRate = (newRating) => {
     setRate(newRating);
@@ -53,6 +58,8 @@ function Films(props) {
       const newFilm = { id: id, title: title, isFavourite: favorite, date: dayjs(watch), rating: rate }
       setFilms(oldFilms => [...oldFilms, newFilm]);
     }
+
+
     handleClose();
   }
   function deleteFilm(id) {
@@ -84,6 +91,7 @@ function Films(props) {
             }
           }).map((f) => <FilmData film={f} key={f.id} delete={deleteFilm} />)
         }
+
       </ul>
 
       <button type="button" class=" btn-lg btn-primary fixedButton rounded-circle" onClick={handleShow}>+</button>
@@ -110,11 +118,10 @@ function Films(props) {
                 onChange={ev => setWhatch(ev.target.value)}
               />
             </Form.Group>
-            <Form.Group className="mb-3">
-              <span class="custom-control custom-checkbox col-3">
-                <input type="checkbox" id="check" class="custom-control-input" />
-                <label class="custom-control-label" for="check"> Favorite</label>
-              </span>
+
+            <Form.Group className="mb-3" controlId="formBasicCheckbox">
+              <Form.Check inline type="checkbox" label="Favorite" onChange={() => setFavorite((old) => !old)} />
+
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Rate</Form.Label>
@@ -154,11 +161,17 @@ function FilmData(props) {
     <>
       <li class="list-group-item">
         <div class="d-flex w-100 justify-content-between">
-          <p class="favorite text-start col-4">{props.film.title}</p>
-          <span class="custom-control custom-checkbox col-2">
-            <input type="checkbox" id="check" class="custom-control-input" onChange={() => favoriteChanged(props.film.isFavourite)} checked={props.film.isFavourite} />
-            <label class="custom-control-label" for="check"> Favorite</label>
-          </span>
+          {(props.film.isFavourite) ?
+            <p class="favorite text-start col-4 red">{props.film.title}</p>
+            :
+            <p class="favorite text-start col-4">{props.film.title}</p>
+          }
+          <div class="col-2">
+            <Form.Group controlId="formBasicCheckbox">
+              <Form.Check inline type="checkbox" label="Favorite" defaultChecked={props.film.isFavourite} onChange={() => favoriteChanged(props.film.isFavourite)} />
+            </Form.Group>
+          </div>
+
           <p class="col-2">{(props.film.date !== undefined) ? props.film.date.format('YYYY-MM-DD') : ""}</p>
           <div class="col-2">
             <ReactStars
