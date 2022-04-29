@@ -39,6 +39,9 @@ function Films(props) {
 
   const handleClose = () => setShowForm(false);
   const handleShow = () => setShowForm(true);
+  const newRate = (newRating) => {
+    setRate(newRating);
+  }
 
   function addFilm(event) {
     event.preventDefault();
@@ -46,8 +49,8 @@ function Films(props) {
 
     } else {
       const id = films.at(-1).id + 1;
-      const newFilm = { id: id, title: title, isFavourite: favorite, date: watch, rating: rate }
-      setFilms(oldFilms => [...films, newFilm]);
+      const newFilm = { id: id, title: title, isFavourite: favorite, date: dayjs(watch), rating: rate }
+      setFilms(oldFilms => [...oldFilms, newFilm]);
     }
     handleClose();
   }
@@ -118,7 +121,7 @@ function Films(props) {
                 half={false}
                 size={24}
                 color2={'#ffd700'}
-                onChange={ev => setRate(ev.target.value)}
+                onChange={newRate}
               />
             </Form.Group>
           </Form>
