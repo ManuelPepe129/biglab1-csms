@@ -20,7 +20,7 @@ function MainComponent(props) {
       <Col xs={3}>
         <Sidebar filter={changeFilter} />
       </Col>
-      <Col xs={9}>
+      <Col xs={8}>
         <Films films={props.films} filter={filter} />
       </Col>
 
