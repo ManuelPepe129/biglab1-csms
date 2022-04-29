@@ -3,8 +3,8 @@ import { Row, Col } from 'react-bootstrap';
 import React from 'react';
 import _default from 'react-bootstrap/esm/Accordion';
 import { Sidebar } from './SidebarComponents';
-//import './FilmsComponents.css';
-//import { Star, StarFill } from 'react-bootstrap-icons';
+import './FilmsComponents.css';
+
 import dayjs from 'dayjs';
 
 import ReactStars from 'react-stars'
@@ -59,7 +59,7 @@ function Films(props) {
         }
       </ul>
        
-      <button type="button" class=" btn-lg btn-primary fixed-right-bottom rounded-circle" style = {{position : "fixed", bottom : 20, right : 20}}>+</button>
+      <button type="button" class=" btn-lg btn-primary fixedButton rounded-circle">+</button>
      
     </>
   );
