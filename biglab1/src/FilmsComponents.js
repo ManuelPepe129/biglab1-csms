@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal'
 import React from 'react';
 import { Sidebar } from './SidebarComponents';
 import './FilmsComponents.css';
+import { Trash } from 'react-bootstrap-icons';
 
 import dayjs from 'dayjs';
 
@@ -54,6 +55,9 @@ function Films(props) {
     }
     handleClose();
   }
+  function deleteFilm(id) {
+    setFilms(films.filter(f => f.id !== id));
+  }
 
   return (
     <>
@@ -78,7 +82,7 @@ function Films(props) {
               default:
                 return true;
             }
-          }).map((f) => <FilmData film={f} key={f.id} />)
+          }).map((f) => <FilmData film={f} key={f.id} delete={deleteFilm} />)
         }
       </ul>
 
@@ -150,13 +154,13 @@ function FilmData(props) {
     <>
       <li class="list-group-item">
         <div class="d-flex w-100 justify-content-between">
-          <p class="favorite text-start col-5">{props.film.title}</p>
-          <span class="custom-control custom-checkbox col-3">
+          <p class="favorite text-start col-4">{props.film.title}</p>
+          <span class="custom-control custom-checkbox col-2">
             <input type="checkbox" id="check" class="custom-control-input" onChange={() => favoriteChanged(props.film.isFavourite)} checked={props.film.isFavourite} />
             <label class="custom-control-label" for="check"> Favorite</label>
           </span>
           <p class="col-2">{(props.film.date !== undefined) ? props.film.date.format('YYYY-MM-DD') : ""}</p>
-          <div class="col-3">
+          <div class="col-2">
             <ReactStars
               value={props.film.rating}
               count={5}
@@ -165,6 +169,11 @@ function FilmData(props) {
               onChange={ratingChanged}
               size={24}
               color2={'#ffd700'} />
+          </div>
+          <div>
+            <td><Button variant='light'
+              onClick={() => { props.delete(props.film.id) }}
+            ><Trash></Trash></Button></td>
           </div>
         </div>
       </li>
