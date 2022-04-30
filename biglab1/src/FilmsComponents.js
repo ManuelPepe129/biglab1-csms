@@ -148,13 +148,15 @@ function Films(props) {
 }
 
 function FilmData(props) {
+  
+  const [favorite, setFavorite] = useState(false);
 
   const ratingChanged = (newRating) => {
     props.film.rating = newRating;
   }
 
   const favoriteChanged = (oldValue) => {
-    props.film.isFavourite = !oldValue;
+   props.film.isFavourite = !oldValue;
   }
 
   return (
@@ -168,12 +170,14 @@ function FilmData(props) {
           }
           <div class="col-2">
             <Form.Group controlId="formBasicCheckbox">
-              <Form.Check inline type="checkbox" label="Favorite" defaultChecked={props.film.isFavourite} onChange={() => favoriteChanged(props.film.isFavourite)} />
+              <Form.Check inline type="checkbox" label="Favorite" defaultChecked={props.film.isFavourite}
+               onChange={() => {setFavorite(!favorite); favoriteChanged(props.film.isFavourite)}}  />
             </Form.Group>
           </div>
 
           <p class="col-2">{(props.film.date !== undefined) ? props.film.date.format('YYYY-MM-DD') : ""}</p>
           <div class="col-2">
+            {(props.film.rating !== undefined) ?
             <ReactStars
               value={props.film.rating}
               count={5}
@@ -182,6 +186,15 @@ function FilmData(props) {
               onChange={ratingChanged}
               size={24}
               color2={'#ffd700'} />
+              :
+            <ReactStars
+              value={props.film.rating}
+              count={5}
+              edit={false}
+              half={false}
+              size={24}
+              color2={'#ffd700'} />
+            }
           </div>
           <div>
             <td><Button variant='light'
