@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Row, Col, Form, Button } from 'react-bootstrap';
+import { Row, Col, Form, Button, Table } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal'
 import React from 'react';
 import { Sidebar } from './SidebarComponents';
@@ -16,27 +16,23 @@ function MainComponent(props) {
   function changeFilter(fil) {
     setFilter(fil);
   }
+
   return (
     <Row>
       <Col xs={3}>
         <Sidebar filter={changeFilter} />
       </Col>
       <Col xs={8}>
-        <Films films={props.films} filter={filter} />
+        <FilmTable films={props.films} filter={filter} />
+        <button type="button" className=" btn-lg btn-primary fixedButton rounded-circle" >+</button>
       </Col>
     </Row>
   );
 
 }
 
-
-function Films(props) {
+function FilmTable(props) {
   const [films, setFilms] = useState(props.films);
-  const [showForm, setShowForm] = useState(false);
-  const [title, setTitle] = useState('');
-  const [watch, setWhatch] = useState(undefined);
-  const [favorite, setFavorite] = useState(false);
-  const [rate, setRate] = useState(0);
 
   function updateFilm(film) {
     setFilms(films => films.map(
@@ -44,36 +40,13 @@ function Films(props) {
     ));
   }
 
-  const handleClose = () => {
-    setShowForm(false);
-    setFavorite(false);
-    setTitle('');
-    setRate(0);
-    setWhatch(undefined);
-  };
-  const handleShow = () => setShowForm(true);
-  const newRate = (newRating) => {
-    setRate(newRating);
-  }
-
-  function addFilm(event) {
-    event.preventDefault();
-    if (title !== '') {
-      const id = films.at(-1).id + 1;
-      const newFilm = { id: id, title: title, isFavourite: favorite, date: dayjs(watch), rating: rate };
-      setFilms(oldFilms => [...oldFilms, newFilm]);
-    }
-
-    handleClose();
-  }
   function deleteFilm(id) {
     setFilms(films.filter(f => f.id !== id));
   }
 
   return (
-    <>
-      <h1 className="mb-2" id="filter-title">{props.filter}</h1>
-      <ul className="list-group list-group-flush" id="list-films">
+    <Table>
+      <tbody>
         {
           films.filter(f => {
             switch (props.filter) {
@@ -93,64 +66,23 @@ function Films(props) {
               default:
                 return true;
             }
-          }).map((f) => <FilmData film={f} key={f.id} delete={deleteFilm} updateFilm={updateFilm} />)
+          }).map((film) => <FilmRow film={film} key={film.id} deleteFilm={deleteFilm} updateFilm={updateFilm} />)
         }
+      </tbody>
+    </Table>
+  )
+}
 
-      </ul>
-
-      <button type="button" className=" btn-lg btn-primary fixedButton rounded-circle" onClick={handleShow}>+</button>
-      <Modal show={showForm} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add Film</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3">
-              <Form.Label>Title</Form.Label>
-              <Form.Control
-                type="text"
-                autoFocus
-                value={title}
-                onChange={ev => setTitle(ev.target.value)}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Whatch Date</Form.Label>
-              <Form.Control
-                type="date"
-                value={watch}
-                onChange={ev => setWhatch(ev.target.value)}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check inline type="checkbox" label="Favorite" onChange={() => setFavorite((old) => !old)} />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Rate</Form.Label>
-              <ReactStars
-                value={rate}
-                count={5}
-                edit={true}
-                half={false}
-                size={24}
-                color2={'#ffd700'}
-                onChange={newRate}
-              />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={addFilm}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </>
-  );
+function FilmRow(props) {
+  return (
+    <tr>
+      <FilmData film={props.film} deleteFilm={props.deleteFilm} updateFilm={props.updateFilm} />
+    </tr>
+  )
 }
 
 function FilmData(props) {
+
   const ratingChanged = (newRating) => {
     const newFilm = { id: props.film.id, title: props.film.title, isFavourite: props.film.isFavourite, date: props.film.date, rating: newRating };
     props.updateFilm(newFilm);
@@ -163,46 +95,35 @@ function FilmData(props) {
 
   return (
     <>
-      <li className="list-group-item">
-        <div className="d-flex w-100 justify-content-between">
-          {(props.film.isFavourite) ?
-            <p className="favorite text-start col-4 red">{props.film.title}</p>
-            :
-            <p className="favorite text-start col-4">{props.film.title}</p>
-          }
-          <div className="col-2">
-            <Form.Group controlId="formBasicCheckbox">
-              <Form.Check inline type="checkbox" label="Favorite" defaultChecked={props.film.isFavourite}
-                onChange={(event) => {
-                  toggleFavourite(event);
-                }} />
-            </Form.Group>
-          </div>
-
-          <p className="col-2">{(props.film.date !== undefined) ? props.film.date.format('YYYY-MM-DD') : ""}</p>
-          <div className="col-2">
-              <ReactStars
-                value={props.film.rating}
-                count={5}
-                edit={true}
-                half={false}
-                onChange={ratingChanged}
-                size={24}
-                color2={'#ffd700'} />
-          </div>
-          <div>
-            <td><Button variant='light'
-              onClick={() => { props.delete(props.film.id) }}
-            ><Trash></Trash></Button></td>
-          </div>
-        </div>
-      </li>
-
+      <td className={`favorite text-start col-4 ${(props.film.isFavourite) ? "red" : false}`}>
+        {props.film.title}
+      </td>
+      <td>
+        <Form.Group controlId="formBasicCheckbox">
+          <Form.Check inline type="checkbox" label="Favorite" defaultChecked={props.film.isFavourite}
+            onChange={(event) => {
+              toggleFavourite(event);
+            }} />
+        </Form.Group>
+      </td>
+      <td>
+        {(props.film.date !== undefined) ? props.film.date.format('YYYY-MM-DD') : ""}
+      </td>
+      <td>
+        <ReactStars
+          value={props.film.rating}
+          count={5}
+          edit={true}
+          half={false}
+          onChange={ratingChanged}
+          size={24}
+          color2={'#ffd700'} />
+      </td>
+      <td>
+        <Button variant='light' onClick={() => { props.deleteFilm(props.film.id) }} ><Trash></Trash></Button>
+      </td>
     </>
   );
 }
-
-
-
 
 export { MainComponent };
