@@ -38,8 +38,15 @@ function Films(props) {
   const [favorite, setFavorite] = useState(false);
   const [rate, setRate] = useState(0);
 
+  function updateFilm(film) {
+    setFilms(films => films.map(
+      f => (f.id === film.id) ? Object.assign({}, film) : f
+    ));
+  }
+
   const handleClose = () => {
-    setShowForm(false); setFavorite(false);
+    setShowForm(false);
+    setFavorite(false);
     setTitle('');
     setRate(0);
     setWhatch(undefined);
@@ -51,14 +58,11 @@ function Films(props) {
 
   function addFilm(event) {
     event.preventDefault();
-    if (title === '') {
-
-    } else {
+    if (title !== '') {
       const id = films.at(-1).id + 1;
-      const newFilm = { id: id, title: title, isFavourite: favorite, date: dayjs(watch), rating: rate }
+      const newFilm = { id: id, title: title, isFavourite: favorite, date: dayjs(watch), rating: rate };
       setFilms(oldFilms => [...oldFilms, newFilm]);
     }
-
 
     handleClose();
   }
@@ -89,7 +93,7 @@ function Films(props) {
               default:
                 return true;
             }
-          }).map((f) => <FilmData film={f} key={f.id} delete={deleteFilm} />)
+          }).map((f) => <FilmData film={f} key={f.id} delete={deleteFilm} updateFilm={updateFilm} />)
         }
 
       </ul>
@@ -121,7 +125,6 @@ function Films(props) {
 
             <Form.Group className="mb-3" controlId="formBasicCheckbox">
               <Form.Check inline type="checkbox" label="Favorite" onChange={() => setFavorite((old) => !old)} />
-
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Rate</Form.Label>
@@ -148,15 +151,8 @@ function Films(props) {
 }
 
 function FilmData(props) {
-  
-  const [favorite, setFavorite] = useState(false);
-
   const ratingChanged = (newRating) => {
     props.film.rating = newRating;
-  }
-
-  const favoriteChanged = (oldValue) => {
-   props.film.isFavourite = !oldValue;
   }
 
   return (
@@ -171,29 +167,32 @@ function FilmData(props) {
           <div class="col-2">
             <Form.Group controlId="formBasicCheckbox">
               <Form.Check inline type="checkbox" label="Favorite" defaultChecked={props.film.isFavourite}
-               onChange={() => {setFavorite(!favorite); favoriteChanged(props.film.isFavourite)}}  />
+                onChange={() => {
+                  const newFilm = { id: props.film.id, title: props.film.title, isFavourite: !(props.film.isFavourite), date: props.film.date, rating: props.film.rating };
+                  props.updateFilm(newFilm);
+                }} />
             </Form.Group>
           </div>
 
           <p class="col-2">{(props.film.date !== undefined) ? props.film.date.format('YYYY-MM-DD') : ""}</p>
           <div class="col-2">
             {(props.film.rating !== undefined) ?
-            <ReactStars
-              value={props.film.rating}
-              count={5}
-              edit={true}
-              half={false}
-              onChange={ratingChanged}
-              size={24}
-              color2={'#ffd700'} />
+              <ReactStars
+                value={props.film.rating}
+                count={5}
+                edit={true}
+                half={false}
+                onChange={ratingChanged}
+                size={24}
+                color2={'#ffd700'} />
               :
-            <ReactStars
-              value={props.film.rating}
-              count={5}
-              edit={false}
-              half={false}
-              size={24}
-              color2={'#ffd700'} />
+              <ReactStars
+                value={props.film.rating}
+                count={5}
+                edit={false}
+                half={false}
+                size={24}
+                color2={'#ffd700'} />
             }
           </div>
           <div>
