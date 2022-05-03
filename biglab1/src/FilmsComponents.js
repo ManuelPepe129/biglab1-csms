@@ -36,7 +36,7 @@ function Films(props) {
   const [title, setTitle] = useState('');
   const [watch, setWhatch] = useState(undefined);
   const [favorite, setFavorite] = useState(false);
-  const [rate, setRate] = useState(0);
+  const [rate, setRate] =useState(0);
 
   const handleClose = () => {
     setShowForm(false); setFavorite(false);
@@ -65,6 +65,9 @@ function Films(props) {
   function deleteFilm(id) {
     setFilms(films.filter(f => f.id !== id));
   }
+  function changeFilm(f){
+    setFilms(films.map(film => film.id===f.id ? {...film, f} : film));
+  }
 
   return (
     <>
@@ -89,7 +92,7 @@ function Films(props) {
               default:
                 return true;
             }
-          }).map((f) => <FilmData film={f} key={f.id} delete={deleteFilm} />)
+          }).map((f) => <FilmData film={f} key={f.id} delete={deleteFilm} changeFilm={changeFilm} />)
         }
 
       </ul>
@@ -106,6 +109,7 @@ function Films(props) {
               <Form.Control
                 type="text"
                 autoFocus
+                require 
                 value={title}
                 onChange={ev => setTitle(ev.target.value)}
               />
@@ -153,6 +157,7 @@ function FilmData(props) {
 
   const ratingChanged = (newRating) => {
     props.film.rating = newRating;
+    props.changeFilm(props.film.id);
   }
 
   const favoriteChanged = (oldValue) => {
@@ -171,13 +176,13 @@ function FilmData(props) {
           <div class="col-2">
             <Form.Group controlId="formBasicCheckbox">
               <Form.Check inline type="checkbox" label="Favorite" defaultChecked={props.film.isFavourite}
-               onChange={() => {setFavorite(!favorite); favoriteChanged(props.film.isFavourite)}}  />
+               onChange={() => {setFavorite(!favorite); favoriteChanged(props.film.isFavourite); props.changeFilm(props.film.id)}}  />
             </Form.Group>
           </div>
 
           <p class="col-2">{(props.film.date !== undefined) ? props.film.date.format('YYYY-MM-DD') : ""}</p>
-          <div class="col-2">
-            {(props.film.rating !== undefined) ?
+          <div class="col-2" >
+           
             <ReactStars
               value={props.film.rating}
               count={5}
@@ -186,15 +191,7 @@ function FilmData(props) {
               onChange={ratingChanged}
               size={24}
               color2={'#ffd700'} />
-              :
-            <ReactStars
-              value={props.film.rating}
-              count={5}
-              edit={false}
-              half={false}
-              size={24}
-              color2={'#ffd700'} />
-            }
+            
           </div>
           <div>
             <td><Button variant='light'
