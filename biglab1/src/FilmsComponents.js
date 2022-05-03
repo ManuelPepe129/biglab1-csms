@@ -72,8 +72,8 @@ function Films(props) {
 
   return (
     <>
-      <h1 class="mb-2" id="filter-title">{props.filter}</h1>
-      <ul class="list-group list-group-flush" id="list-films">
+      <h1 className="mb-2" id="filter-title">{props.filter}</h1>
+      <ul className="list-group list-group-flush" id="list-films">
         {
           films.filter(f => {
             switch (props.filter) {
@@ -98,7 +98,7 @@ function Films(props) {
 
       </ul>
 
-      <button type="button" class=" btn-lg btn-primary fixedButton rounded-circle" onClick={handleShow}>+</button>
+      <button type="button" className=" btn-lg btn-primary fixedButton rounded-circle" onClick={handleShow}>+</button>
       <Modal show={showForm} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Add Film</Modal.Title>
@@ -152,31 +152,35 @@ function Films(props) {
 
 function FilmData(props) {
   const ratingChanged = (newRating) => {
-    props.film.rating = newRating;
+    const newFilm = { id: props.film.id, title: props.film.title, isFavourite: props.film.isFavourite, date: props.film.date, rating: newRating };
+    props.updateFilm(newFilm);
+  }
+
+  const toggleFavourite = (event) => {
+    const newFilm = { id: props.film.id, title: props.film.title, isFavourite: event.target.checked, date: props.film.date, rating: props.film.rating };
+    props.updateFilm(newFilm);
   }
 
   return (
     <>
-      <li class="list-group-item">
-        <div class="d-flex w-100 justify-content-between">
+      <li className="list-group-item">
+        <div className="d-flex w-100 justify-content-between">
           {(props.film.isFavourite) ?
-            <p class="favorite text-start col-4 red">{props.film.title}</p>
+            <p className="favorite text-start col-4 red">{props.film.title}</p>
             :
-            <p class="favorite text-start col-4">{props.film.title}</p>
+            <p className="favorite text-start col-4">{props.film.title}</p>
           }
-          <div class="col-2">
+          <div className="col-2">
             <Form.Group controlId="formBasicCheckbox">
               <Form.Check inline type="checkbox" label="Favorite" defaultChecked={props.film.isFavourite}
-                onChange={() => {
-                  const newFilm = { id: props.film.id, title: props.film.title, isFavourite: !(props.film.isFavourite), date: props.film.date, rating: props.film.rating };
-                  props.updateFilm(newFilm);
+                onChange={(event) => {
+                  toggleFavourite(event);
                 }} />
             </Form.Group>
           </div>
 
-          <p class="col-2">{(props.film.date !== undefined) ? props.film.date.format('YYYY-MM-DD') : ""}</p>
-          <div class="col-2">
-            {(props.film.rating !== undefined) ?
+          <p className="col-2">{(props.film.date !== undefined) ? props.film.date.format('YYYY-MM-DD') : ""}</p>
+          <div className="col-2">
               <ReactStars
                 value={props.film.rating}
                 count={5}
@@ -185,15 +189,6 @@ function FilmData(props) {
                 onChange={ratingChanged}
                 size={24}
                 color2={'#ffd700'} />
-              :
-              <ReactStars
-                value={props.film.rating}
-                count={5}
-                edit={false}
-                half={false}
-                size={24}
-                color2={'#ffd700'} />
-            }
           </div>
           <div>
             <td><Button variant='light'
