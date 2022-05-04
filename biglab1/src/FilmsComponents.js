@@ -4,7 +4,7 @@ import React from 'react';
 import { Sidebar } from './SidebarComponents';
 import './FilmsComponents.css';
 import { Trash, Pencil } from 'react-bootstrap-icons';
-import { useNavigate,useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import dayjs from 'dayjs';
 
@@ -12,9 +12,6 @@ import ReactStars from 'react-stars'
 
 function MainComponent(props) {
   const { filter } = useParams();
-
-
-
 
   return (
     <Row>
@@ -36,7 +33,7 @@ function FilmTable(props) {
 
   return (
     <>
-      <h1 className='fs-1'>{props.filter}</h1>
+      <h1 className='fs-1'>{props.filter ? props.filter : 'All'}</h1>
       <Table>
 
         <tbody>
@@ -114,7 +111,7 @@ function FilmData(props) {
           onChange={ratingChanged}
           size={24}
           color2={'#ffd700'} />
-      </td> 
+      </td>
 
 
       <td><Button variant='light' className='edit'
