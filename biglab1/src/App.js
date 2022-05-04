@@ -42,7 +42,7 @@ function App() {
         <Route path='/add' element={<FilmForm addFilm={addFilm} films={films}/> }></Route>
         <Route path='/edit/:filmId' element={<FilmForm addFilm={updateFilm} films={films}/> }></Route>
         <Route path='*' element={<h1>Page not found</h1>}> </Route>
-        <Route> </Route>
+        <Route path='/:filter' element={<MainComponent films={films} deleteFilm={deleteFilm}/>}> </Route>
       </Routes>
     </Router>
     </Container>

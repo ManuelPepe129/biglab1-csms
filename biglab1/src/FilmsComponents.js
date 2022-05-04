@@ -4,23 +4,22 @@ import React from 'react';
 import { Sidebar } from './SidebarComponents';
 import './FilmsComponents.css';
 import { Trash, Pencil } from 'react-bootstrap-icons';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useParams } from 'react-router-dom';
 
 import dayjs from 'dayjs';
 
 import ReactStars from 'react-stars'
 
 function MainComponent(props) {
-  const [filter, setFilter] = useState("All");
+  const { filter } = useParams();
 
-  function changeFilter(fil) {
-    setFilter(fil);
-  }
+
+
 
   return (
     <Row>
       <Col xs={3}>
-        <Sidebar filter={changeFilter} />
+        <Sidebar />
       </Col>
       <Col xs={8}>
         <FilmTable films={props.films} filter={filter} deleteFilm={props.deleteFilm} />

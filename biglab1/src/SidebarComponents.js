@@ -1,13 +1,16 @@
 import Nav from 'react-bootstrap/Nav'
-function Sidebar(props) {
+import { useNavigate } from 'react-router-dom';
+function Sidebar() {
+    const navigate = useNavigate();
+
     return (
         
     <Nav defaultActiveKey="1" className="flex-column">
-        <Nav.Link className="list-group-item list-group-item-action" eventKey="1" onClick={() => { props.filter('All') }}>All</Nav.Link>
-        <Nav.Link className="list-group-item list-group-item-action" eventKey="2" onClick={() => { props.filter('Favorites') }}>Favorites</Nav.Link>
-        <Nav.Link className="list-group-item list-group-item-action" eventKey="3" onClick={() => { props.filter('Best Rated') }}>Best Rated</Nav.Link>
-        <Nav.Link className="list-group-item list-group-item-action" eventKey="4" onClick={() => { props.filter('Seen Last Month') }}>Seen Last Month</Nav.Link>
-        <Nav.Link className="list-group-item list-group-item-action" eventKey="5" onClick={() => { props.filter('Unseen') }}>Unseen</Nav.Link>
+        <Nav.Link className="list-group-item list-group-item-action" eventKey="1" onClick={() => { navigate('/All') }}>All</Nav.Link>
+        <Nav.Link className="list-group-item list-group-item-action" eventKey="2" onClick={() => { navigate('/Favorites') }}>Favorites</Nav.Link>
+        <Nav.Link className="list-group-item list-group-item-action" eventKey="3" onClick={() => { navigate('/Best Rated') }}>Best Rated</Nav.Link>
+        <Nav.Link className="list-group-item list-group-item-action" eventKey="4" onClick={() => { navigate('/Seen Last Month') }}>Seen Last Month</Nav.Link>
+        <Nav.Link className="list-group-item list-group-item-action" eventKey="5" onClick={() => { navigate('/Unseen') }}>Unseen</Nav.Link>
     </Nav>
     
     );
