@@ -11,7 +11,7 @@ function FilmForm(props) {
     const [title, setTitle] = useState(filmToEdit ? filmToEdit.title : '');
     const [date, setDate] = useState(filmToEdit ? filmToEdit.date : dayjs());
     const [favorite, setFavorite] = useState(filmToEdit ? filmToEdit.isFavourite : false);
-    const [rate, setRate] = useState(filmToEdit ? filmToEdit.rate : 0);
+    const [rate, setRate] = useState(filmToEdit ? filmToEdit.rating : 0);
     const [errorMsg, setErrorMsg] = useState('');
 
 
@@ -61,7 +61,7 @@ function FilmForm(props) {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Check inline type="checkbox" label="Favorite" onChange={(event) => setFavorite(event.target.value)} />
+                    <Form.Check inline type="checkbox" label="Favorite" onChange={(event) => setFavorite(event.target.value)} defaultChecked={favorite} />
 
                 </Form.Group>
                 <Form.Group className="mb-3">
