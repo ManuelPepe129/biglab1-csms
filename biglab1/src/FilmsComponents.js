@@ -4,7 +4,8 @@ import Modal from 'react-bootstrap/Modal'
 import React from 'react';
 import { Sidebar } from './SidebarComponents';
 import './FilmsComponents.css';
-import { Trash , Pencil} from 'react-bootstrap-icons';
+import { Trash, Pencil } from 'react-bootstrap-icons';
+import { useNavigate } from 'react-router-dom';
 
 import dayjs from 'dayjs';
 
@@ -24,7 +25,7 @@ function MainComponent(props) {
       </Col>
       <Col xs={8}>
         <FilmTable films={props.films} filter={filter} />
-        <button type="button" className=" btn-lg btn-primary fixedButton rounded-circle" >+</button>
+
       </Col>
     </Row>
   );
@@ -32,44 +33,40 @@ function MainComponent(props) {
 }
 
 function FilmTable(props) {
-  const [films, setFilms] = useState(props.films);
 
-  function updateFilm(film) {
-    setFilms(films => films.map(
-      f => (f.id === film.id) ? Object.assign({}, film) : f
-    ));
-  }
-
-  function deleteFilm(id) {
-    setFilms(films.filter(f => f.id !== id));
-  }
+  const navigate = useNavigate();
 
   return (
-    <Table>
-      <tbody>
-        {
-          films.filter(f => {
-            switch (props.filter) {
-              case 'Favorites':
-                return f.isFavourite;
+    <>
+      <h1 className='fs-1'>{props.filter}</h1>
+      <Table>
 
-              case 'Best Rated':
-                return f.rating === 5;
+        <tbody>
+          {
+            props.films.filter(f => {
+              switch (props.filter) {
+                case 'Favorites':
+                  return f.isFavourite;
 
-              case 'Seen Last Month':
-                if (f.date !== undefined)
-                  return f.date.isAfter(dayjs().subtract(30, 'day'));
-                else return false;
-              case 'Unseen':
-                return f.date === undefined;
+                case 'Best Rated':
+                  return f.rating === 5;
 
-              default:
-                return true;
-            }
-          }).map((film) => <FilmRow film={film} key={film.id} deleteFilm={deleteFilm} updateFilm={updateFilm} />)
-        }
-      </tbody>
-    </Table>
+                case 'Seen Last Month':
+                  if (f.date !== undefined)
+                    return f.date.isAfter(dayjs().subtract(30, 'day'));
+                  else return false;
+                case 'Unseen':
+                  return f.date === undefined;
+
+                default:
+                  return true;
+              }
+            }).map((film) => <FilmRow film={film} key={film.id} deleteFilm={props.deleteFilm} updateFilm={props.updateFilm} />)
+          }
+        </tbody>
+      </Table>
+      <button type="button" className=" btn-lg btn-primary fixedButton rounded-circle" onClick={() => navigate('/add')}>+</button>
+    </>
   )
 }
 
@@ -100,10 +97,10 @@ function FilmData(props) {
       </td>
       <td>
         <Form.Group controlId="formBasicCheckbox">
-          <Form.Check inline type="checkbox" label="Favorite" defaultChecked={props.film.isFavourite} 
+          <Form.Check inline type="checkbox" label="Favorite" defaultChecked={props.film.isFavourite}
             onChange={(event) => {
               toggleFavourite(event);
-            }} disabled/>
+            }} disabled />
         </Form.Group>
       </td>
       <td>
@@ -119,17 +116,17 @@ function FilmData(props) {
           size={24}
           color2={'#ffd700'} />
       </td>
-      <td>
-      
-          <td><Button variant='light' className='edit'
-              onClick={() => { props.delete(props.film.id) }}
-            ><Pencil></Pencil></Button></td>
-            
-            <td><Button variant='light' className='delete'
-              onClick={() => { props.delete(props.film.id) }}
-            ><Trash></Trash></Button></td>
-        
-      </td>
+
+
+      <td><Button variant='light' className='edit'
+        onClick={() => { props.delete(props.film.id) }}
+      ><Pencil></Pencil></Button></td>
+
+      <td><Button variant='light' className='delete'
+        onClick={() => { props.delete(props.film.id) }}
+      ><Trash></Trash></Button></td>
+
+
     </>
   );
 }

@@ -5,6 +5,9 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import { MyNavbar } from './NavbarComponents';
 import { MainComponent } from './FilmsComponents';
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import {useState} from 'react';
+import {FilmForm} from './FilmForm';
 
 const filmList = [
   {id: 1, title: "Pulp Fiction", isFavourite: true, date: dayjs('2022-03-10'), rating: 5},
@@ -15,13 +18,35 @@ const filmList = [
 ]
 
 function App() {
+  const [films, setFilms] = useState(filmList);
+  function updateFilm(film) {
+    setFilms(films => films.map(
+      f => (f.id === film.id) ? Object.assign({}, film) : f
+    ));
+  }
+
+  function deleteFilm(id) {
+    setFilms(films.filter(f => f.id !== id));
+  }
+  function addFilm(newFilm) {
+    setFilms(oldFilms => [...oldFilms, newFilm]);
+}
   return (
     <>
     <MyNavbar></MyNavbar>
     <br/>
     <Container fluid className="mh-100">
-      <MainComponent films={filmList}/>
+    <Router>
+      <Routes>
+        <Route path='/' element={<MainComponent films={films}/>}></Route>
+        <Route path='/add' element={<FilmForm addFilm={addFilm} films={films}/> }></Route>
+        <Route> </Route>
+        <Route> </Route>
+        <Route> </Route>
+      </Routes>
+    </Router>
     </Container>
+    
     </>
   );
 }
