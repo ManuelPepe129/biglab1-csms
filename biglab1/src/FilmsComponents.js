@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal'
 import React from 'react';
 import { Sidebar } from './SidebarComponents';
 import './FilmsComponents.css';
-import { Trash } from 'react-bootstrap-icons';
+import { Trash , Pencil} from 'react-bootstrap-icons';
 
 import dayjs from 'dayjs';
 
@@ -100,10 +100,10 @@ function FilmData(props) {
       </td>
       <td>
         <Form.Group controlId="formBasicCheckbox">
-          <Form.Check inline type="checkbox" label="Favorite" defaultChecked={props.film.isFavourite}
+          <Form.Check inline type="checkbox" label="Favorite" defaultChecked={props.film.isFavourite} 
             onChange={(event) => {
               toggleFavourite(event);
-            }} />
+            }} disabled/>
         </Form.Group>
       </td>
       <td>
@@ -113,14 +113,22 @@ function FilmData(props) {
         <ReactStars
           value={props.film.rating}
           count={5}
-          edit={true}
+          edit={false}
           half={false}
           onChange={ratingChanged}
           size={24}
           color2={'#ffd700'} />
       </td>
       <td>
-        <Button variant='light' onClick={() => { props.deleteFilm(props.film.id) }} ><Trash></Trash></Button>
+      
+          <td><Button variant='light' className='edit'
+              onClick={() => { props.delete(props.film.id) }}
+            ><Pencil></Pencil></Button></td>
+            
+            <td><Button variant='light' className='delete'
+              onClick={() => { props.delete(props.film.id) }}
+            ><Trash></Trash></Button></td>
+        
       </td>
     </>
   );

@@ -7,3 +7,9 @@
 .red{
     color: red;
 }
+.edit{
+    border-color: green;
+}
+.delete{
+    border-color: red;
+}
