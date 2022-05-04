@@ -1,17 +1,19 @@
-import { Form, Button,Alert} from 'react-bootstrap';
+import { Form, Button, Alert } from 'react-bootstrap';
 import ReactStars from 'react-stars';
 import { useState } from 'react';
 import dayjs from 'dayjs';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 function FilmForm(props) {
+    const { filmId } = useParams();
+    const filmToEdit = props.films.find((f)=> f.id.toString()===filmId);
+    const [title, setTitle] = useState(filmToEdit ? filmToEdit.title : '');
+    const [date, setDate] = useState(filmToEdit ? filmToEdit.date : dayjs());
+    const [favorite, setFavorite] = useState(filmToEdit ? filmToEdit.isFavourite : false);
+    const [rate, setRate] = useState(filmToEdit ? filmToEdit.rate : 0);
+    const [errorMsg, setErrorMsg] = useState('');
 
-    const [title, setTitle] = useState('');
-    const [date, setDate] = useState(dayjs());
-    const [favorite, setFavorite] = useState(false);
-    const [rate, setRate] = useState(0);
-    const [errorMsg,setErrorMsg]=useState('');
 
     const navigate = useNavigate();
 
@@ -28,7 +30,7 @@ function FilmForm(props) {
         }
         else {
 
-            const id = props.films.at(-1).id + 1;
+            const id = filmToEdit ? filmToEdit.id : props.films.at(-1).id + 1;
             const newFilm = { id: id, title: title.trim(), isFavourite: favorite, date: dayjs(date), rating: rate }
             props.addFilm(newFilm);
             navigate('/');
@@ -38,7 +40,7 @@ function FilmForm(props) {
     }
     return (
         <>
-        {errorMsg ? <Alert variant='danger' onClose={()=>setErrorMsg('')} dismissible>{errorMsg}</Alert>:false}
+            {errorMsg ? <Alert variant='danger' onClose={() => setErrorMsg('')} dismissible>{errorMsg}</Alert> : false}
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                     <Form.Label>Title</Form.Label>
@@ -75,9 +77,9 @@ function FilmForm(props) {
                     />
                 </Form.Group>
                 <br />
-
+                
                 <Button type='submit' variant="primary">
-                    Add Film
+                    {filmToEdit ? 'Save' :'Add Film' }
                 </Button>
 
                 <Button className='mx-3' variant="secondary" onClick={() => navigate('/')}>

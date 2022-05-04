@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Row, Col, Form, Button, Table } from 'react-bootstrap';
-import Modal from 'react-bootstrap/Modal'
 import React from 'react';
 import { Sidebar } from './SidebarComponents';
 import './FilmsComponents.css';
@@ -24,7 +23,7 @@ function MainComponent(props) {
         <Sidebar filter={changeFilter} />
       </Col>
       <Col xs={8}>
-        <FilmTable films={props.films} filter={filter} />
+        <FilmTable films={props.films} filter={filter} deleteFilm={props.deleteFilm} />
 
       </Col>
     </Row>
@@ -79,6 +78,7 @@ function FilmRow(props) {
 }
 
 function FilmData(props) {
+  const navigate = useNavigate();
 
   const ratingChanged = (newRating) => {
     const newFilm = { id: props.film.id, title: props.film.title, isFavourite: props.film.isFavourite, date: props.film.date, rating: newRating };
@@ -115,15 +115,15 @@ function FilmData(props) {
           onChange={ratingChanged}
           size={24}
           color2={'#ffd700'} />
-      </td>
+      </td> 
 
 
       <td><Button variant='light' className='edit'
-        onClick={() => { props.delete(props.film.id) }}
+        onClick={() => navigate(`/edit/${props.film.id}`)}
       ><Pencil></Pencil></Button></td>
 
       <td><Button variant='light' className='delete'
-        onClick={() => { props.delete(props.film.id) }}
+        onClick={() => { props.deleteFilm(props.film.id) }}
       ><Trash></Trash></Button></td>
 
 

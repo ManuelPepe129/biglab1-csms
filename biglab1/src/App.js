@@ -38,10 +38,10 @@ function App() {
     <Container fluid className="mh-100">
     <Router>
       <Routes>
-        <Route path='/' element={<MainComponent films={films}/>}></Route>
+        <Route path='/' element={<MainComponent films={films} deleteFilm={deleteFilm}/>}></Route>
         <Route path='/add' element={<FilmForm addFilm={addFilm} films={films}/> }></Route>
-        <Route> </Route>
-        <Route> </Route>
+        <Route path='/edit/:filmId' element={<FilmForm addFilm={updateFilm} films={films}/> }></Route>
+        <Route path='*' element={<h1>Page not found</h1>}> </Route>
         <Route> </Route>
       </Routes>
     </Router>
