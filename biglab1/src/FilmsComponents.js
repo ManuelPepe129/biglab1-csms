@@ -11,19 +11,27 @@ import dayjs from 'dayjs';
 import ReactStars from 'react-stars'
 
 function MainComponent(props) {
-  const { filter } = useParams();
+  const [filter, setFilter] = useState('All');
+  const { filterId } = useParams();
+  const navigate = useNavigate();
+
+  if(filter==='NotFound'){
+    navigate(`/${filter}`) 
+  }
+  else{
 
   return (
     <Row>
       <Col xs={3}>
-        <Sidebar />
+        <Sidebar setFilter={setFilter}/>
       </Col>
       <Col xs={8}>
-        <FilmTable films={props.films} filter={filter} deleteFilm={props.deleteFilm} />
+        <FilmTable films={props.films} filterId={filterId} deleteFilm={props.deleteFilm} filter={filterId? filterId : filter} setFilter={setFilter} />
 
       </Col>
     </Row>
   );
+  }
 
 }
 
@@ -31,6 +39,11 @@ function FilmTable(props) {
 
   const navigate = useNavigate();
 
+  function wrongURL(){
+  
+    props.setFilter('NotFound');
+   
+  }
   return (
     <>
       <h1 className='fs-1'>{props.filter ? props.filter : 'All'}</h1>
@@ -40,6 +53,9 @@ function FilmTable(props) {
           {
             props.films.filter(f => {
               switch (props.filter) {
+                case 'All':
+                  return true;
+
                 case 'Favorites':
                   return f.isFavourite;
 
@@ -54,7 +70,7 @@ function FilmTable(props) {
                   return f.date === undefined;
 
                 default:
-                  return true;
+                  wrongURL();
               }
             }).map((film) => <FilmRow film={film} key={film.id} deleteFilm={props.deleteFilm} updateFilm={props.updateFilm} />)
           }
