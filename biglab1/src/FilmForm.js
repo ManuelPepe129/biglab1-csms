@@ -37,7 +37,7 @@ function FilmForm(props) {
     const navigate = useNavigate();
 
     const newRate = (newRating) => {
-        setRate(newRating + 3);
+        setRate(newRating);
     }
 
     function handleSubmit(event) {
