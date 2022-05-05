@@ -13,14 +13,31 @@ import ReactStars from 'react-stars'
 function MainComponent(props) {
   const { filter } = useParams();
 
+  function renderTable() {
+    if (filter) {
+      switch (filter) {
+        case '':
+        case 'All':
+        case 'Favorites':
+        case 'Best Rated':
+        case 'Seen Last Month':
+        case 'Unseen':
+          return <FilmTable films={props.films} filter={filter} deleteFilm={props.deleteFilm} />;
+        default:
+          return <h1>Filter not found</h1>;
+      }
+    } else {
+      return <FilmTable films={props.films} filter={filter} deleteFilm={props.deleteFilm} />;
+    }
+  }
+
   return (
     <Row>
       <Col xs={3}>
         <Sidebar />
       </Col>
       <Col xs={8}>
-        <FilmTable films={props.films} filter={filter} deleteFilm={props.deleteFilm} />
-
+        {renderTable()}
       </Col>
     </Row>
   );
@@ -35,7 +52,6 @@ function FilmTable(props) {
     <>
       <h1 className='fs-1'>{props.filter ? props.filter : 'All'}</h1>
       <Table>
-
         <tbody>
           {
             props.films.filter(f => {
