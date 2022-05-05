@@ -37,7 +37,7 @@ function FilmForm(props) {
     const navigate = useNavigate();
 
     const newRate = (newRating) => {
-        setRate(newRating);
+        setRate(newRating + 3);
     }
 
     function handleSubmit(event) {
@@ -46,7 +46,8 @@ function FilmForm(props) {
 
         if (title.trim().length === 0) {
             setErrorMsg('Title name can not be empty');
-
+        } else if (rate < 0 || rate > 5) {
+            setErrorMsg('Film rating must be between 0 and 5');
         } else if (dateObject.isValid() && dateObject.isAfter(dayjs())) {
             setErrorMsg('Date can not be in a future day');
         } else {
@@ -56,7 +57,6 @@ function FilmForm(props) {
             props.addFilm(newFilm);
             navigate('/');
         }
-
     }
 
     return (<>
@@ -65,6 +65,7 @@ function FilmForm(props) {
             <Form.Group className="mb-3">
                 <Form.Label>Title</Form.Label>
                 <Form.Control
+                    required
                     type="text"
                     autoFocus
                     value={title}
