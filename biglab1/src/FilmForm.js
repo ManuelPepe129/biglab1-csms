@@ -25,7 +25,7 @@ function FilmForm(props) {
         if (title.trim().length === 0) {
             setErrorMsg('Title name can not be empty');
 
-        } else if (date.isAfter(dayjs())) {
+        } else if (date!=undefined && date.isAfter(dayjs())) {
             setErrorMsg('Date can not be in a future day');
         }
         else {
