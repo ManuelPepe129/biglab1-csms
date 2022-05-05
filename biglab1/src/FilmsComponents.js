@@ -58,16 +58,17 @@ function FilmTable(props) {
               switch (props.filter) {
                 case 'Favorites':
                   return f.isFavourite;
-
                 case 'Best Rated':
                   return f.rating === 5;
-
                 case 'Seen Last Month':
-                  if (f.date !== undefined)
-                    return f.date.isAfter(dayjs().subtract(30, 'day'));
-                  else return false;
+                  const d = dayjs(f.date);
+                  if (d.isValid()) {
+                    return d.isAfter(dayjs().subtract(30, 'day'));
+                  } else {
+                    return false;
+                  }
                 case 'Unseen':
-                  return f.date === undefined;
+                  return !dayjs(f.date).isValid();
 
                 default:
                   return true;
@@ -116,7 +117,7 @@ function FilmData(props) {
         </Form.Group>
       </td>
       <td>
-        {(props.film.date !== undefined) ? props.film.date.format('YYYY-MM-DD') : ""}
+        {(dayjs(props.film.date).isValid()) ? dayjs(props.film.date).format('YYYY-MM-DD') : ""}
       </td>
       <td>
         <ReactStars

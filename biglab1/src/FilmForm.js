@@ -7,9 +7,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 function FilmForm(props) {
     const { filmId } = useParams();
-    const filmToEdit = props.films.find((f)=> f.id.toString()===filmId);
+    const filmToEdit = props.films.find((f) => f.id.toString() === filmId);
     const [title, setTitle] = useState(filmToEdit ? filmToEdit.title : '');
-    const [date, setDate] = useState(filmToEdit ? filmToEdit.date : undefined);
+    const [date, setDate] = useState(filmToEdit ? filmToEdit.date : '');
     const [favorite, setFavorite] = useState(filmToEdit ? filmToEdit.isFavourite : false);
     const [rate, setRate] = useState(filmToEdit ? filmToEdit.rating : 0);
     const [errorMsg, setErrorMsg] = useState('');
@@ -22,25 +22,21 @@ function FilmForm(props) {
     }
     function handleSubmit(event) {
         event.preventDefault();
+        const dateObject = dayjs(date);
+
         if (title.trim().length === 0) {
             setErrorMsg('Title name can not be empty');
 
-        } else if (date!=undefined && date.isAfter(dayjs())) {
+        } else if (dateObject.isValid() && dateObject.isAfter(dayjs())) {
             setErrorMsg('Date can not be in a future day');
         }
         else {
-
             const id = filmToEdit ? filmToEdit.id : props.films.at(-1).id + 1;
-            
-            let da;
-            if(!dayjs(date).isValid())
-                da=undefined;
-            else da=date
-            const newFilm = { id: id, title: title.trim(), isFavourite: favorite, date: da, rating: rate }
+            const newDate = dateObject.isValid() ? date : '';
+            const newFilm = { id: id, title: title.trim(), isFavourite: favorite, date: newDate, rating: rate }
             props.addFilm(newFilm);
             navigate('/');
         }
-
 
     }
     return (
@@ -60,7 +56,7 @@ function FilmForm(props) {
                     <Form.Label>Whatch Date</Form.Label>
                     <Form.Control
                         type="date"
-                        value={date===undefined ? date : date.format('YYYY-MM-DD')}
+                        value={dayjs(date).format('YYYY-MM-DD')}
                         onChange={ev => setDate(dayjs(ev.target.value))}
                     />
                 </Form.Group>
@@ -82,9 +78,9 @@ function FilmForm(props) {
                     />
                 </Form.Group>
                 <br />
-                
+
                 <Button type='submit' variant="primary">
-                    {filmToEdit ? 'Save' :'Add Film' }
+                    {filmToEdit ? 'Save' : 'Add Film'}
                 </Button>
 
                 <Button className='mx-3' variant="secondary" onClick={() => navigate('/')}>
