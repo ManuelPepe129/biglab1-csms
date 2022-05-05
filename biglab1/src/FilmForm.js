@@ -2,7 +2,7 @@ import { Form, Button, Alert } from 'react-bootstrap';
 import ReactStars from 'react-stars';
 import { useState } from 'react';
 import dayjs from 'dayjs';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 
 
 function FilmForm(props) {
@@ -14,8 +14,9 @@ function FilmForm(props) {
     const [rate, setRate] = useState(filmToEdit ? filmToEdit.rating : 0);
     const [errorMsg, setErrorMsg] = useState('');
 
-
     const navigate = useNavigate();
+
+    const location = useLocation().pathname;
 
     const newRate = (newRating) => {
         setRate(newRating);
@@ -39,56 +40,71 @@ function FilmForm(props) {
         }
 
     }
-    return (
-        <>
-            {errorMsg ? <Alert variant='danger' onClose={() => setErrorMsg('')} dismissible>{errorMsg}</Alert> : false}
-            <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3">
-                    <Form.Label>Title</Form.Label>
-                    <Form.Control
-                        type="text"
-                        autoFocus
-                        value={title}
-                        onChange={ev => setTitle(ev.target.value)}
-                    />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Whatch Date</Form.Label>
-                    <Form.Control
-                        type="date"
-                        value={dayjs(date).format('YYYY-MM-DD')}
-                        onChange={ev => setDate(dayjs(ev.target.value))}
-                    />
-                </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Check inline type="checkbox" label="Favorite" onChange={(event) => setFavorite(event.target.value)} defaultChecked={favorite} />
-
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Rate</Form.Label>
-                    <ReactStars
-                        value={rate}
-                        count={5}
-                        edit={true}
-                        half={false}
-                        size={24}
-                        color2={'#ffd700'}
-                        onChange={newRate}
-                    />
-                </Form.Group>
-                <br />
-
-                <Button type='submit' variant="primary">
-                    {filmToEdit ? 'Save' : 'Add Film'}
-                </Button>
-
+    function displayForm() {
+        if (!filmToEdit && location !== '/add') {
+            return (<>
+                <h1>Film id not valid</h1>
                 <Button className='mx-3' variant="secondary" onClick={() => navigate('/')}>
                     Cancel
                 </Button>
+            </>);
+        } else {
+            return (<>
+                {errorMsg ? <Alert variant='danger' onClose={() => setErrorMsg('')} dismissible>{errorMsg}</Alert> : false}
+                <Form onSubmit={handleSubmit}>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Title</Form.Label>
+                        <Form.Control
+                            type="text"
+                            autoFocus
+                            value={title}
+                            onChange={ev => setTitle(ev.target.value)}
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Whatch Date</Form.Label>
+                        <Form.Control
+                            type="date"
+                            value={dayjs(date).format('YYYY-MM-DD')}
+                            onChange={ev => setDate(dayjs(ev.target.value))}
+                        />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                        <Form.Check inline type="checkbox" label="Favorite" onChange={(event) => setFavorite(event.target.value)} defaultChecked={favorite} />
+
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Rate</Form.Label>
+                        <ReactStars
+                            value={rate}
+                            count={5}
+                            edit={true}
+                            half={false}
+                            size={24}
+                            color2={'#ffd700'}
+                            onChange={newRate}
+                        />
+                    </Form.Group>
+                    <br />
+
+                    <Button type='submit' variant="primary">
+                        {filmToEdit ? 'Save' : 'Add Film'}
+                    </Button>
+
+                    <Button className='mx-3' variant="secondary" onClick={() => navigate('/')}>
+                        Return to home
+                    </Button>
 
 
-            </Form>
-        </>);
+                </Form>
+            </>);
+        }
+    }
+
+    return (
+        displayForm()
+    );
 }
 export { FilmForm };
