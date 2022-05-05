@@ -26,7 +26,7 @@ function MainComponent(props) {
         <Sidebar setFilter={setFilter}/>
       </Col>
       <Col xs={8}>
-        <FilmTable films={props.films} filterId={filterId} deleteFilm={props.deleteFilm} filter={filterId? filterId : filter} setFilter={setFilter} />
+        <FilmTable films={props.films} deleteFilm={props.deleteFilm} filter={filterId? filterId : filter} setFilter={setFilter} />
 
       </Col>
     </Row>
