@@ -18,6 +18,7 @@ const filmList = [
 
 function App() {
   const [films, setFilms] = useState(filmList);
+  
   function updateFilm(film) {
     setFilms(films => films.map(
       f => (f.id === film.id) ? Object.assign({}, film) : f
@@ -37,7 +38,7 @@ function App() {
       <Container fluid className="mh-100">
         <Router>
           <Routes>
-            <Route path='/' element={<MainComponent films={films} deleteFilm={deleteFilm} />}></Route>
+            <Route path='/' element={<MainComponent films={films} deleteFilm={deleteFilm} updateFilm={updateFilm} />}></Route>
             <Route path='/add' element={<FilmFormWrapper addFilm={addFilm} films={films} />}></Route>
             <Route path='/edit/:filmId' element={<FilmFormWrapper addFilm={updateFilm} films={films} />}></Route>
             <Route path='*' element={<h1>Page not found</h1>}> </Route>

@@ -22,12 +22,12 @@ function MainComponent(props) {
         case 'Best Rated':
         case 'Seen Last Month':
         case 'Unseen':
-          return <FilmTable films={props.films} filter={filter} deleteFilm={props.deleteFilm} />;
+          return <FilmTable films={props.films} filter={filter} deleteFilm={props.deleteFilm} updateFilm={props.updateFilm} />;
         default:
           return <h1>Filter not found</h1>;
       }
     } else {
-      return <FilmTable films={props.films} filter={filter} deleteFilm={props.deleteFilm} />;
+      return <FilmTable films={props.films} filter={filter} deleteFilm={props.deleteFilm} updateFilm={props.updateFilm} />;
     }
   }
 
@@ -113,7 +113,7 @@ function FilmData(props) {
           <Form.Check inline type="checkbox" label="Favorite" defaultChecked={props.film.isFavourite}
             onChange={(event) => {
               toggleFavourite(event);
-            }} disabled />
+            }} />
         </Form.Group>
       </td>
       <td>
@@ -123,7 +123,7 @@ function FilmData(props) {
         <ReactStars
           value={props.film.rating}
           count={5}
-          edit={false}
+          edit={true}
           half={false}
           onChange={ratingChanged}
           size={24}
