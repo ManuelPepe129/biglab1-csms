@@ -6,7 +6,7 @@ import { MyNavbar } from './NavbarComponents';
 import { MainComponent } from './FilmsComponents';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
-import { FilmForm } from './FilmForm';
+import { FilmFormWrapper } from './FilmForm';
 
 const filmList = [
   { id: 1, title: "Pulp Fiction", isFavourite: true, date: '2022-03-10', rating: 5 },
@@ -38,8 +38,8 @@ function App() {
         <Router>
           <Routes>
             <Route path='/' element={<MainComponent films={films} deleteFilm={deleteFilm} />}></Route>
-            <Route path='/add' element={<FilmForm addFilm={addFilm} films={films} />}></Route>
-            <Route path='/edit/:filmId' element={<FilmForm addFilm={updateFilm} films={films} />}></Route>
+            <Route path='/add' element={<FilmFormWrapper addFilm={addFilm} films={films} />}></Route>
+            <Route path='/edit/:filmId' element={<FilmFormWrapper addFilm={updateFilm} films={films} />}></Route>
             <Route path='*' element={<h1>Page not found</h1>}> </Route>
             <Route path='/filter/:filter' element={<MainComponent films={films} deleteFilm={deleteFilm} />}> </Route>
           </Routes>
