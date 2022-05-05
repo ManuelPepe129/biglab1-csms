@@ -9,7 +9,7 @@ function FilmForm(props) {
     const { filmId } = useParams();
     const filmToEdit = props.films.find((f)=> f.id.toString()===filmId);
     const [title, setTitle] = useState(filmToEdit ? filmToEdit.title : '');
-    const [date, setDate] = useState(filmToEdit ? filmToEdit.date : dayjs());
+    const [date, setDate] = useState(filmToEdit ? filmToEdit.date : undefined);
     const [favorite, setFavorite] = useState(filmToEdit ? filmToEdit.isFavourite : false);
     const [rate, setRate] = useState(filmToEdit ? filmToEdit.rating : 0);
     const [errorMsg, setErrorMsg] = useState('');
@@ -31,7 +31,12 @@ function FilmForm(props) {
         else {
 
             const id = filmToEdit ? filmToEdit.id : props.films.at(-1).id + 1;
-            const newFilm = { id: id, title: title.trim(), isFavourite: favorite, date: dayjs(date), rating: rate }
+            
+            let da;
+            if(!dayjs(date).isValid())
+                da=undefined;
+            else da=date
+            const newFilm = { id: id, title: title.trim(), isFavourite: favorite, date: da, rating: rate }
             props.addFilm(newFilm);
             navigate('/');
         }
@@ -55,7 +60,7 @@ function FilmForm(props) {
                     <Form.Label>Whatch Date</Form.Label>
                     <Form.Control
                         type="date"
-                        value={date.format('YYYY-MM-DD')}
+                        value={date===undefined ? date : date.format('YYYY-MM-DD')}
                         onChange={ev => setDate(dayjs(ev.target.value))}
                     />
                 </Form.Group>
