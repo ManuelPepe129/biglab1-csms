@@ -17,7 +17,7 @@ function MyNavbar(props) {
               className="me-2"
               aria-label="Search"
             />
-            <td><Button className='rounded-circle' variant='outline-light'
+            <td><Button className='rounded-circle' variant='light'
             ><Search></Search></Button></td>
           </Form>
         </Navbar.Collapse>
