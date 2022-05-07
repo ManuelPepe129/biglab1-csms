@@ -34,7 +34,6 @@ function App() {
   return (
     <>
       <MyNavbar></MyNavbar>
-      <br />
       <Container fluid className="mh-100">
         <Router>
           <Routes>

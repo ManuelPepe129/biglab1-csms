@@ -13,3 +13,19 @@
 .delete{
     border-color: red;
 }
+
+.sideBar{
+    height: 695px;
+    background-color:#ECEFF1;
+}
+
+
+.list-group-item.active {
+
+    background-color: #01579B;
+    border-color:#01579B ;
+    
+}
+
+
+

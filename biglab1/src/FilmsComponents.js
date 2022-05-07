@@ -5,6 +5,7 @@ import './FilmsComponents.css';
 import { Trash, Pencil } from 'react-bootstrap-icons';
 import { useNavigate, useParams } from 'react-router-dom';
 
+
 import dayjs from 'dayjs';
 
 import ReactStars from 'react-stars'
@@ -32,7 +33,7 @@ function MainComponent(props) {
 
   return (
     <Row>
-      <Col xs={3}>
+      <Col xs={3} className={'sideBar'}>
         <Sidebar />
       </Col>
       <Col xs={8}>

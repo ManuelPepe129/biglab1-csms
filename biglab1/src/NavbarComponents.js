@@ -4,7 +4,7 @@ import { CollectionPlay, PersonCircle} from 'react-bootstrap-icons';
 
 function MyNavbar(props) {
   return (
-    <Navbar variant="dark" bg="primary">
+    <Navbar variant="dark" bg="primary"  >
         <Container fluid>
             <Navbar.Brand><CollectionPlay  width="25" height="25"/></Navbar.Brand>
             <Navbar.Brand>FilmLibrary</Navbar.Brand>
@@ -13,11 +13,11 @@ function MyNavbar(props) {
                 <Form className="d-flex">
                     <FormControl
                     type="search"
-                    placeholder="Search"
+                    placeholder="Type here..."
                     className="me-2"
                     aria-label="Search"
                     />
-                    <Button variant="outline-success">Search</Button>
+                    <Button variant="outline-light" >Search</Button>
                 </Form>
             </Navbar.Collapse>
             <Navbar.Brand><PersonCircle width="25" height="25" fill="currentColor"/></Navbar.Brand>
