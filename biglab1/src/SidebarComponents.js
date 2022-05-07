@@ -4,7 +4,6 @@ function Sidebar() {
     const navigate = useNavigate();
 
     return (
-
         <>
         <br />
         <Nav defaultActiveKey="1" className="flex-column ">
